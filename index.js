@@ -52,14 +52,7 @@ app.on('second-instance', () => {
 	}
 });
 
-function updateBadge(conversations) {
-	// ignore `Sindre messaged you` blinking
-	if (!Array.isArray(conversations)) {
-		return;
-	}
-
-	const messageCount = conversations.filter(({unread}) => unread).length;
-
+function setBadgeCount(messageCount) {
 	if (process.platform === 'darwin' || process.platform === 'linux') {
 		if (config.get('showUnreadBadge')) {
 			app.setBadgeCount(messageCount);
@@ -89,6 +82,17 @@ function updateBadge(conversations) {
 		}
 	}
 }
+
+// function updateBadge(conversations) {
+// 	// ignore `Sindre messaged you` blinking
+// 	if (!Array.isArray(conversations)) {
+// 		return;
+// 	}
+
+// 	const messageCount = conversations.filter(({unread}) => unread).length;
+
+// 	setBadgeCount(messageCount);
+// }
 
 ipcMain.on('update-overlay-icon', (event, data, text) => {
 	const img = electron.nativeImage.createFromDataURL(data);
@@ -219,6 +223,23 @@ function createMainWindow() {
 		}
 	});
 
+	win.on("page-title-updated", (e, title) => {
+		e.preventDefault();
+
+		if (title.match(/Messenger/g) != null) {
+			var found = title.match(/^\(.*?\)/g);
+			var messageCount;
+			if (found == null) {
+				messageCount = 0;
+				win.setTitle("Messenger");
+			} else {
+				messageCount = Number(found[0].substring(1, found[0].length-1));
+				win.setTitle("(" + messageCount + ") Messenger");
+			}
+			setBadgeCount(messageCount);
+		}
+	})
+
 	return win;
 }
 
@@ -258,8 +279,8 @@ app.on('ready', () => {
 			app.dock.setMenu(electron.Menu.buildFromTemplate([firstItem, {type: 'separator'}, ...items]));
 		});
 	}
-	// Update badge on conversations change
-	ipcMain.on('conversations', (event, conversations) => updateBadge(conversations));
+	// // Update badge on conversations change
+	// ipcMain.on('conversations', (event, conversations) => updateBadge(conversations));
 
 	enableHiresResources();
 
