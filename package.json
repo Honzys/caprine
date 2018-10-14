@@ -19,7 +19,7 @@
 		"test": "npm run lint",
 		"start": "electron .",
 		"pack": "electron-builder --dir",
-		"dist": "electron-builder --mac --linux --win",
+		"dist": "electron-builder --linux",
 		"release": "np --no-publish",
 		"publish-snap": "del dist && electron-builder --linux && snapcraft push --release=stable dist/*.snap"
 	},
