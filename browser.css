@@ -16,16 +16,19 @@ body {
 		sans-serif,
 		'Apple Color Emoji',
 		'Segoe UI Emoji',
-		'Segoe UI Symbol' !important;
+		'Segoe UI Symbol';
 	text-rendering: optimizeLegibility !important;
 	font-feature-settings: 'liga', 'clig', 'kern';
+	-webkit-app-region: no-drag;
+	-webkit-user-drag: none;
 }
 
 /* Bind the toolbar as the window's draggable region */
 ._36ic._5l-3,
 ._5742,
 ._673w {
-	-webkit-app-region: drag;
+	-webkit-app-region: no-drag;
+	-webkit-user-drag: none;
 }
 
 /* Fix broken scroll arrows on mesage input on Windows */
