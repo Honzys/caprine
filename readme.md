@@ -2,6 +2,28 @@
 
 > Elegant Facebook Messenger desktop app
 
+## New features that are not in original repository
+> **author:** Jan Stratil (*honzyset@gmail.com*)
+
+1) Title is **not blinking** with ('Someone' is writing you!), It just shows (x)
+   Messenger, where x is number of unread messages (it is less disturbing when
+   doing other stuff -> less distraction, more work done)
+2) Do not disturb feature:
+   * You can set the time during the title and icon tray won't change. So when
+     you're working the app will distract you only once a amount time set (you
+     can choose between 0, 1, 2, 5 and 10 minutes).
+   * Right click on the icon-tray, go to 'Do not disturb settings' and tick
+     desirable option.
+
+## How to build
+1) Install `nodejs`
+2) `git clone` this repository
+3) `npm run dist-*arch*`, where arch should be on of `mac`,`linux` or `win`
+4) In `dist` folder are the binaries
+
+   
+# Proceedings of the original text
+
 Caprine is an unofficial and privacy focused Facebook Messenger app with many useful features.
 
 **[Website](https://sindresorhus.com/caprine)** &nbsp;&nbsp; **[Discuss it on Product Hunt](https://www.producthunt.com/posts/caprine-2)**

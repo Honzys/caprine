@@ -35,7 +35,8 @@
 		"electron-store": "^2.0.0",
 		"electron-updater": "^3.0.3",
 		"element-ready": "^3.0.0",
-		"facebook-locales": "^1.0.464"
+		"facebook-locales": "^1.0.464",
+		"node-datetime": "^2.1.2"
 	},
 	"devDependencies": {
 		"del-cli": "^1.1.0",
