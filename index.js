@@ -6,6 +6,8 @@ const electron = require('electron');
 const log = require('electron-log');
 const {autoUpdater} = require('electron-updater');
 const isDev = require('electron-is-dev');
+const datetime = require('node-datetime')
+const dt = datetime.create()
 const appMenu = require('./menu');
 const config = require('./config');
 const tray = require('./tray');
@@ -37,6 +39,7 @@ let mainWindow;
 let isQuitting = false;
 let prevMessageCount = 0;
 let dockMenu;
+let start_time = 0;
 
 if (!app.requestSingleInstanceLock()) {
 	app.quit();
@@ -227,12 +230,25 @@ function createMainWindow() {
 		e.preventDefault();
 
 		if (title.match(/Messenger/g) != null) {
+			// Fix so that start_time is starting every time there's a
+			// message
+			if (start_time == 0) {
+				start_time = dt.now()
+			}
+
 			var found = title.match(/^\(.*?\)/g);
 			var messageCount;
 			if (found == null) {
 				messageCount = 0;
 				win.setTitle("Messenger");
+				start_time = 0
 			} else {
+				// Do not disturb feature:
+				// If time between last update is less than dnd time, do
+				// not update anything
+				if (dt.now() - start_time <= config.get('dnd')*60*1000) {
+					return 
+				}
 				messageCount = Number(found[0].substring(1, found[0].length-1));
 				win.setTitle("(" + messageCount + ") Messenger");
 			}
